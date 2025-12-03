@@ -1,64 +1,41 @@
-# Estructura-de-carpetas-del-proyecto
-Base De Conocimiento En Prolog
-# Proyecto: Consulta de Cursos con Tau-Prolog
+# Selector de Cursos
 
-Este proyecto permite consultar los cursos disponibles para distintos alumnos, según las materias aprobadas y los requisitos previos.  
-El sistema está hecho con **HTML**, **JavaScript** y la librería **Tau-Prolog**, que permite ejecutar código Prolog directamente en el navegador.
-
----
-
-## Requisitos
-
-No es necesario instalar programas complicados.  
-Solo necesitas:
-
-- Un **navegador web** actualizado (Google Chrome, Firefox, Edge, Opera, etc.).
-- Conexión a internet (para cargar la librería Tau-Prolog desde el CDN).
+ 
+Este es un **selector de cursos simple** creado con **HTML, CSS y JavaScript puro**.  
+La lógica principal para la selección y filtrado de cursos está implementada usando la librería **Tau Prolog**.
 
 ---
 
-## Descarga del proyecto
+## Probar la Aplicación
 
-1. Descarga este repositorio o carpeta del proyecto.
-2. Asegúrate de tener el archivo principal llamado:
+### Opción 1: Acceder al Enlace de Deploy
 
+La forma más rápida de ver la aplicación es a través de su versión ya publicada.
 
----
-
-## Instalación
-
-No requiere instalación.  
-Solo asegúrate de que todos los archivos estén en la misma carpeta (por ejemplo, en el escritorio o en tu carpeta de proyectos).
+**Enlace de la aplicación:**  
+[https://selector-cursos.netlify.app/](https://selector-cursos.netlify.app/)
 
 ---
 
-## Ejecución del código
+### Opción 2: Probar Localmente desde los Archivos
 
-1. Da doble clic en el archivo **index.html**.  
-2. Se abrirá en tu navegador por defecto.
-3. Aparecerá una ventana con el título *Consulta de cursos disponibles*.
-4. Selecciona un alumno del menú desplegable.
-5. Presiona el botón **Consultar**.
-6. Debajo aparecerán los cursos disponibles según su progreso.
+Si prefieres explorar el código y ejecutar la aplicación directamente en tu ordenador, sigue estos pasos:
 
----
+#### 1️ Clonar el Repositorio
 
-##  Estructura del proyecto
+Primero, necesitas obtener una copia del proyecto en tu máquina.  
+Abre tu terminal o línea de comandos.
 
----
+Ejecuta el siguiente comando: `git clone https://github.com/JoseAndresGD/selector-materias-prolog.git`
 
-##  ¿Cómo funciona?
+#### 2 Abrir el Archivo `index.html`
 
-El proyecto usa **Tau-Prolog**, una librería que ejecuta código Prolog en el navegador.  
-En el archivo `index.html` se declara una **base de conocimiento** con:
+Una vez que el repositorio esté en tu disco duro, ve a la carpeta del proyecto.  
+Localiza el archivo **`index.html`** y ábrelo directamente en tu navegador web de preferencia  
+(como **Chrome**, **Firefox** o **Edge**).
 
-- Cursos
-- Prerrequisitos
-- Materias aprobadas por cada alumno
-
-Cuando haces clic en *Consultar*, el sistema busca los cursos que el alumno **puede tomar**, verificando que cumpla los prerrequisitos y que no haya cursado ya la materia.
-
----
+El navegador cargará el archivo HTML junto con sus estilos (**`styles.css`**)  
+y la lógica de JavaScript (**`tau-prolog.js`**), permitiéndote interactuar con el **selector de cursos**.
 
 ## ALUMNO
 
