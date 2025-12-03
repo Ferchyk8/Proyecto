@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="styles.css">
+	<script src="tau-prolog.js"></script>
+</head>
+<body>
+	<div class="container">
+		<p>Base de conocimiento de seleccion de cursos para el alumno o tutor;</p>
+		<p>seleccionar alumno:</p>
+		<select id="alumno">
+			<option value="miguel" selected>miguel</option>
+			<option value="amayrani">amayrani</option>
+			<option value="jose">jose</option>
+			<option value="karla">karla</option>
+		</select>
+		<p>seleccionar materias:</p>
+		<select id="sel_categoria">
+			<option value='programacionI'>Programacion I</option>
+			<option value='programacionII'>Programacion II</option>
+			<option value='estructura'>Estructura de datos</option>
+			<option value='orientada'>Programacion orientada a objetos</option>
+			<option value='visual'>Programacion visual</option>
+			<option value='bdI'>Base de datos I</option>
+			<option value='bdII'>Base de datos II</option>
+			<option value='programacionbd'>Programacion web con mysql</option>
+		</select>
+		<input type="button" id="busca" value="consultar Base" onclick="consulta()"/>
+		<p id="respuesta"></p>
+	</div>
+	<script id="habilidades.pl" type="text/prolog">
+		materia_disponible(programacionI).
+		materia_disponible(programacionII).
+		materia_disponible(estructura).
+		materia_disponible(orientada).
+		materia_disponible(visual).
+		materia_disponible(bdI).
+		materia_disponible(bdII).
+		materia_disponible(programacionbd).
+
+		alumno(miguel,programacionI).
+		alumno(miguel,programacionII).
+		alumno(miguel,bdI).
+
+		alumno(amayrani,programacionI).
+		alumno(amayrani,bdI).
+		alumno(amayrani,bdII).
+
+		alumno(jose,programacionI).
+		alumno(jose,programacionII).
+		alumno(jose,estructura).
+		alumno(jose,orientada).
+		alumno(jose,bdI).
+		alumno(jose,bdII).
+
+		alumno(karla,bdI).
+
+		aprobado(X, programacionI) :- alumno(X, programacionI).
+		aprobado(X, programacionII) :- aprobado(X, programacionI), alumno(X, programacionII).
+		aprobado(X, estructura) :- aprobado(X, programacionII), alumno(X, estructura).
+		aprobado(X, orientada) :- aprobado(X, estructura), alumno(X, orientada).
+		aprobado(X, visual) :- aprobado(X, orientada), alumno(X, visual).
+		aprobado(X, bdI) :- alumno(X, bdI).
+		aprobado(X, bdII) :- aprobado(X, bdI), alumno(X, bdII).
+		aprobado(X, programacionbd) :- aprobado(X, bdII), alumno(X, programacionbd).
+
+		no_puede_cursar(X, programacionII) :- \+aprobado(X, programacionI).
+		no_puede_cursar(X, estructura) :- \+(aprobado(X, programacionII)).
+		no_puede_cursar(X, orientada) :- \+(aprobado(X, estructura)).
+		no_puede_cursar(X, visual) :- \+(aprobado(X, orientada)).
+		no_puede_cursar(X, bdII) :- \+(aprobado(X, bdI)).
+		no_puede_cursar(X, programacionbd) :- \+(aprobado(X, bdII)).
+
+		materias_faltantes_por_cursar(Alumno, Materia) :-materia_disponible(Materia), \+ aprobado(Alumno, Materia).
+	</script>
+	<script>
+		function buscar(pregunta,p){
+			var session = pl.create();
+			var parser=session.consult("habilidades.pl");
+			var respuesta=false;
+			if (parser==true){
+				session.query(pregunta);
+				var callback = function( answer ) { 
+					let r=pl.format_answer( answer );
+					console.log( "respuesta: "+ r);
+					if(r.substring(0,4)=='true'){
+						respuesta=true;
+					}else{
+						respuesta=false;
+					}
+				};
+				session.answer(callback);
+			}else{
+				console.log("anazlizador: error "+parser);
+				respuesta=false;
+			}
+			return respuesta;
+		}
+		function consulta(){
+			let puede_ser=document.getElementById("sel_categoria").value;
+			var p=document.getElementById("alumno").value;//document.getElementById("alumno").value;
+			if(p.length>0){
+				let pregunta="";
+				let pregunta2="";
+				if(puede_ser=='programacionI'){
+					pregunta="aprobado("+p+",programacionI)";
+					pregunta2="no_puede_cursar("+p+",programacionI)";
+				}else if(puede_ser=='programacionII'){
+					pregunta="aprobado("+p+",programacionII)";
+					pregunta2="no_puede_cursar("+p+",programacionII)";
+				}else if(puede_ser=='estructura'){
+					pregunta="aprobado("+p+",estructura)";
+					pregunta2="no_puede_cursar("+p+",estructura)";
+				}else if(puede_ser=='orientada'){
+					pregunta="aprobado("+p+",orientada)";
+					pregunta2="no_puede_cursar("+p+",orientada)";
+				}else if(puede_ser=='visual'){
+					pregunta="aprobado("+p+",visual)";
+					pregunta2="no_puede_cursar("+p+",visual)";
+				}else if(puede_ser=='bdI'){
+					pregunta="aprobado("+p+",bdI)";
+					pregunta2="no_puede_cursar("+p+",bdI)";
+				}else if(puede_ser=='bdII'){
+					pregunta="aprobado("+p+",bdII)";
+					pregunta2="no_puede_cursar("+p+",bdII)";
+				}else if(puede_ser=='programacionbd'){
+					pregunta="aprobado("+p+",programacionbd)";
+					pregunta2="no_puede_cursar("+p+",programacionbd)";
+				}
+				pregunta+='.';
+				pregunta2+='.';
+				console.log(pregunta,p);
+				console.log(pregunta2,p);
+                r=respuesta=buscar(pregunta,p);
+				r2=respuesta2=buscar(pregunta2,p);
+                if (r && !r2){
+                    document.getElementById("respuesta").innerHTML=p+" ya ha aprobado la materia ";
+                }else if(!r && r2){
+                    document.getElementById("respuesta").innerHTML=p+" no puede cursar la materia, no ha aprobado la materia anterior ";
+                }else if(!r && !r2){
+                    document.getElementById("respuesta").innerHTML=p+" si puede cursar la materia ";
+                }
+				
+			}else{
+				document.getElementById("respuesta").innerHTML="debe escribir un nombre";
+			}
+		}
+	</script>
+</body>
+</html>

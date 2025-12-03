@@ -1,0 +1,112 @@
+:root {
+    --verde: #00ff00;
+    --fondo: #121212;
+    --container-bg: #1e1e1e;
+    --texto: #e0e0e0;
+    --sombra: rgba(0, 255, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--fondo);
+    color: var(--texto);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--container-bg);
+    border-radius: 15px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px var(--sombra);
+}
+
+.container p:first-of-type {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: var(--texto);
+    position: relative;
+}
+
+.container p:first-of-type::before {
+    content: '///';
+    color: var(--verde);
+    margin-right: 10px;
+}
+
+p {
+    font-size: 1.1em;
+    margin: 12px 0;
+}
+
+select, input[type="button"] {
+    width: 90%;
+    max-width: 400px;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 10px;
+    border: 1px solid var(--verde);
+    font-size: 16px;
+    background-color: var(--fondo);
+    color: var(--verde);
+    text-align: center;
+    transition: all 0.3s;
+}
+
+select:focus {
+    outline: none;
+    border-color: #39ff14;
+    box-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+}
+
+input[type="button"] {
+    cursor: pointer;
+    font-weight: 600;
+    background-color: #39ff14; /* verde intenso */
+    color: var(--fondo);
+    border: none;
+}
+
+input[type="button"]:hover {
+    background-color: #00cc00;
+    box-shadow: 0 0 12px rgba(0, 204, 0, 0.6);
+}
+
+#respuesta {
+    font-weight: bold;
+    color: var(--verde);
+    font-size: 1.2em;
+    margin-top: 18px;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+/* Ajustes para móviles */
+@media (max-width: 480px) {
+    .container {
+        padding: 25px 15px;
+    }
+    p, .container p:first-of-type {
+        font-size: 1.2em;
+    }
+    select, input[type="button"] {
+        font-size: 15px;
+        padding: 12px;
+    }
+    #respuesta {
+        font-size: 1.1em;
+    }
+}
